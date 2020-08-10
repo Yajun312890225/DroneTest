@@ -1,14 +1,16 @@
+kind: pipeline
+name: drone
+
 workspace:
     base: /go
     path: src/github.com/Yajun312890225/DroneTest
   
-pipeline:
-    build:
-        image: golang:latest
-        commands:
+steps:
+    - name: build
+      image: golang:latest
+      commands:
         - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main main.go
-
-    publish:
+    - name: publish 
         image: plugins/docker
         registry: https://registry.wisesoft.net.cn/
         repo: DroneTest 
