@@ -1,17 +1,16 @@
 workspace:
-    base: /srv/drone-demo
-    path: .
-  
-  pipeline:
-    build:
-       image: golang:alpine
-       # pull: true
-       environment:
-         - KEY=VALUE
-       secrets: [key1, key2]
-       commands:
-         - echo $$KEY
-         - pwd
-         - ls
-         - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
-         - ./app
+  base: /go
+  path: src/github.com/Yajun312890225/DroneTest
+
+pipeline:
+  build:
+      image: golang:latest
+      commands:
+      - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main main.go
+
+  publish:
+      image: plugins/docker
+      registry: https://registry.wisesoft.net.cn/
+      repo: DroneTest 
+      tags:
+          - latest
